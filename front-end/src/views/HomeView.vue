@@ -1,11 +1,13 @@
-<script setup></script>
-
 <template>
-  <main>
-    <h1>Welcome vue</h1>
-
-    <h1 class="text-3xl font-bold underline">Hello world!</h1>
-  </main>
+  <HomeComponent />
 </template>
 
-<script></script>
+<script>
+import HomeComponent from "../components/Home/Home.vue";
+export default {
+  name: "HomeView",
+  components: {
+    HomeComponent,
+  },
+};
+</script>
