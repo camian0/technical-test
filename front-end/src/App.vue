@@ -16,7 +16,6 @@ import NavBar from "./components/navBar/Navbar.vue";
 <style>
 body {
   background-color: rgb(231 231 231);
-  /* display: flex; */
 }
 
 main {
