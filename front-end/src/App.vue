@@ -1,8 +1,3 @@
-<script setup>
-import { RouterView } from "vue-router";
-import NavBar from "./components/navBar/Navbar.vue";
-</script>
-
 <template>
   <NavBar />
   <main class="container mx-auto py-2">
@@ -10,9 +5,13 @@ import NavBar from "./components/navBar/Navbar.vue";
   </main>
 
   <footer>
-    <span class="content">Todos los derechos reservados &copy;</span>
+    <span class="content">Todos los derechos reservados&copy;</span>
   </footer>
 </template>
+<script setup>
+import { RouterView } from "vue-router";
+import NavBar from "./components/navBar/Navbar.vue";
+</script>
 
 <style>
 body {
