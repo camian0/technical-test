@@ -1,0 +1,24 @@
+# Binarios para programas y plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Directorio de prueba
+_test
+
+# Archivos de salida
+*.out
+
+# Dependencias
+/vendor/
+
+# Archivos de IDE específicos (por ejemplo, para JetBrains IDEs como GoLand)
+.idea/
+
+# Archivos del sistema
+.DS_Store
+
+# Go workspace file
+go.work
