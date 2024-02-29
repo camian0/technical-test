@@ -29,7 +29,7 @@
   </section>
 
   <div class="table mx-2 my-5" v-if="tableData.length != 0">
-    <table class="table-fixed border-collapse">
+    <table class="">
       <thead>
         <tr>
           <th class="">Fecha</th>
@@ -44,7 +44,7 @@
           <td style="min-width: 205px" class="">{{ item.Date }}</td>
           <td class="">{{ item.From }}</td>
           <td class="">{{ item.To }}</td>
-          <td style="min-width: 215px" class="">{{ item.Subject }}</td>
+          <td style="width: 215px" class="">{{ item.Subject }}</td>
           <td class="">
             <pre>
             {{ item.Content }}
@@ -133,7 +133,7 @@ export default {
 table {
   background-color: white;
   border-radius: 5px;
-  overflow-y: visible;
+  width: 95%;
 }
 
 th {
@@ -146,5 +146,12 @@ td {
 
 .card {
   background-color: rgb(255 255 255 / 16%);
+}
+pre {
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 </style>
