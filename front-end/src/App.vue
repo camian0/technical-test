@@ -17,6 +17,7 @@ import NavBar from "./components/navBar/Navbar.vue";
 body {
   background-color: rgb(231 231 231);
   font-family: "Helvetica", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  word-break: normal;
 }
 
 main {
