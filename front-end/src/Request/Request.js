@@ -1,11 +1,8 @@
-const APP_HOST = "http://localhost:4080/"
-const user = "admin"
-const pass = "Complexpass#123"
-const base64Credentials = btoa(user + ':' + pass);
+const APP_HOST = "http://localhost:3000/"
 
 export const getData = async function (url = "", params = {}) {
     url = APP_HOST + url;
-    if (params !== {}) {
+    if (params !== null) {
         url += "?" + new URLSearchParams(params).toString();
     }
     const response = await fetch(url, {
@@ -15,7 +12,6 @@ export const getData = async function (url = "", params = {}) {
         credentials: "same-origin",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Basic " + base64Credentials
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
@@ -32,7 +28,6 @@ export const postData = async function (url = "", data = {}) {
         credentials: "same-origin",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Basic " + base64Credentials
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
