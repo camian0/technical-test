@@ -170,31 +170,9 @@ export default {
       favDialog.close();
     },
 
-    // modal() {
-    //   var updateButton = document.getElementById("updateDetails");
-    //   var cancelButton = document.getElementById("cancel");
-    //   var favDialog = document.getElementById("favDialog");
-
-    //   // Update button opens a modal dialog
-    //   updateButton.addEventListener("click", function () {
-    //     favDialog.showModal();
-    //   });
-
-    //   // Form cancel button closes the dialog box
-    //   cancelButton.addEventListener("click", function () {
-    //     favDialog.close();
-    //   });
-    // },
-
     async search() {
       this.body.query.field = this.model.fieldSearch;
-      this.body.query.term = this.model.search;
-      // let field = this.model.fieldSearch;
-      // let search = this.model.search;
-
-      // this.body.query_string = { query: `${field}:${search}` };
-      // console.log("modelo", this.model);
-      // console.log("body", this.body);
+      this.body.query.term = this.model.search;      
       await postData(`search`, this.body)
         .then((res) => {
           if (res != null) {
