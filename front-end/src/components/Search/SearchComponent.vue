@@ -2,7 +2,15 @@
 <!-- modal -->
 <dialog id="favDialog">
     <div class="modal-content">
-      <span class="title">Contenido del correo</span>
+      <div class="head-title">
+        <span class="title">Contenido del correo</span>
+        <menu class="buttons">
+          <a href="" @click.prevent="closeModal">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+          </a>       
+      </menu>
+
+      </div>
       <section class="headers">
         <p>
           <b>Desde:</b>{{ modal.from }}
@@ -20,30 +28,20 @@
       <p>
         <b>Contenido del correo:</b>
         <pre>{{ modal.content }}</pre>
-      </p>
-      <section class="description"></section>
-      <menu class="buttons">
-        <button
-          id="cancel"
-          class="rounded-md bg-blue-400 mx-2 my-2.5 px-6 py-4 text-sm right-0 font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          @click="closeModal"
-        >
-          Cerrar
-        </button>
-      </menu>
+      </p>     
+     
     </div>
   </dialog> 
 
   <!-- buscador -->
   <div class="search my-3">
     <div class="field-card">
-      <select
-        placeholder="Selecciona"
+      <select        
         id="field"
         class="select mt-3"
         v-model="model.fieldSearch"
       >
-        <option selected>{{ this.model.fieldSearch }}</option>
+        <option selected>Escoje el campo de búsqueda</option>
         <option v-for="(v, k) in FIELDS" :value="k">{{ v }}</option>
       </select>
     </div>
@@ -112,7 +110,6 @@
 
 <script>
 import { postData } from "../../Request/Request";
-import ModalComponent from "../Modal.vue";
 import { FIELDS } from "../../Config/Constants";
 export default {
   name: "SearchComponent",
@@ -121,9 +118,6 @@ export default {
       FIELDS,
     };
   },  
-  components: {
-    ModalComponent,
-  },
   data() {
     return {
       data: [],
@@ -134,14 +128,15 @@ export default {
           term: "",
           field: "",
         },
-        sort_fields: ["-@timestamp"],
+        sort_fields: [],
         from: 0,
         max_results: 20,
         _source: [],
       },
+      defaultSearch:"Escoje el campo de búsqueda",
       model: {
         search: "",
-        fieldSearch: "Escoje el campo de búsqueda",
+        fieldSearch: "",
       },
       indexedDB: "enron",
       modal: {
@@ -172,7 +167,8 @@ export default {
 
     async search() {
       this.body.query.field = this.model.fieldSearch;
-      this.body.query.term = this.model.search;      
+      this.body.query.term = this.model.search;
+      this.body.sort_fields.push(this.model.fieldSearch)
       await postData(`search`, this.body)
         .then((res) => {
           if (res != null) {
@@ -298,5 +294,10 @@ pre {
   text-align: center;
   font-size: 50px;
   font-weight: 600;
+}
+
+.head-title{
+  display: flex;
+  justify-content: space-between;
 }
 </style>
