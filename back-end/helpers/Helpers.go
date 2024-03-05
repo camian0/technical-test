@@ -11,3 +11,7 @@ func EncodeUser() string {
 	code := base64.StdEncoding.EncodeToString([]byte(user + ":" + pass))
 	return code
 }
+
+func ConvertBytes(data []byte) []byte {
+	return []byte(string(data))
+}
