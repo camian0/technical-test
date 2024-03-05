@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
-	"io/ioutil"
+	"github.com/go-chi/cors"
+	"io"
 	"myapp.com/enron/helpers"
 	"myapp.com/enron/model"
 	"net/http"
@@ -21,6 +22,18 @@ func Routes() *chi.Mux {
 		middleware.Logger,
 		middleware.Recoverer,
 	)
+	//cors
+	mux.Use(cors.Handler(cors.Options{
+		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins: []string{"https://*", "http://*"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
+
 	mux.Get("/", helloHandler)
 	mux.Post("/search", searchZicHandler)
 	return mux
@@ -34,22 +47,21 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func searchZicHandler(res http.ResponseWriter, req *http.Request) {
-	res.Header().Set("Content-Type", "application/json")
-
 	userEncoded := helpers.EncodeUser()
-	body, err := ioutil.ReadAll(req.Body)
+	body, err := io.ReadAll(req.Body)
 	if err != nil {
 		http.Error(res, "Error al leer el cuerpo de la solicitud", http.StatusInternalServerError)
 		return
 	}
-	var jsonStr = []byte(string(body))
-	reqPost, err := http.NewRequest("POST", ZINCURL, bytes.NewBuffer(jsonStr))
+
+	var bodyBytes = helpers.ConvertBytes(body)
+	reqPost, err := http.NewRequest("POST", ZINCURL, bytes.NewBuffer(bodyBytes))
+	if err != nil {
+		http.Error(res, "Error al leer el cuerpo de la solicitud", http.StatusInternalServerError)
+		return
+	}
 	reqPost.Header.Set("Content-Type", "application/json")
 	reqPost.Header.Set("Authorization", "Basic "+userEncoded)
-	if err != nil {
-		http.Error(res, "Error al leer el cuerpo de la solicitud", http.StatusInternalServerError)
-		return
-	}
 
 	client := &http.Client{}
 	response, err := client.Do(reqPost)
@@ -57,7 +69,7 @@ func searchZicHandler(res http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
-	body, err = ioutil.ReadAll(response.Body)
+	body, err = io.ReadAll(response.Body)
 	if err != nil {
 		http.Error(res, "Error al leer el cuerpo de la solicitud", http.StatusInternalServerError)
 		return
@@ -69,9 +81,7 @@ func searchZicHandler(res http.ResponseWriter, req *http.Request) {
 		fmt.Println("Error al decodificar JSON:", err)
 		return
 	}
-
 	decodeData := map[string]interface{}{"data": decode}
-
-	defer response.Body.Close()
 	_ = json.NewEncoder(res).Encode(decodeData)
+	defer response.Body.Close()
 }
