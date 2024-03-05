@@ -6,8 +6,6 @@ import (
 )
 
 func main() {
-	fmt.Println("asas")
-
 	mux := Routes()
 	server := server2.CreateServer(mux)
 	fmt.Println("Servidor corriendo...")
