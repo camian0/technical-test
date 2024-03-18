@@ -257,6 +257,7 @@ pre {
 
 #favDialog{
   width: 80%;
+  padding: 10px;
 }
 
 .field-card {
