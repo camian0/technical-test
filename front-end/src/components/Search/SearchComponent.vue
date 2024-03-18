@@ -132,11 +132,10 @@ export default {
         from: 0,
         max_results: 20,
         _source: [],
-      },
-      defaultSearch:"Escoje el campo de búsqueda",
+      },      
       model: {
         search: "",
-        fieldSearch: "",
+        fieldSearch: "Escoje el campo de búsqueda",
       },
       indexedDB: "enron",
       modal: {
