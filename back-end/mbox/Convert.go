@@ -21,6 +21,9 @@ const MAILDIR = DOWNLOAD_DIR + "\\enron_mail_20110402\\maildir"
 const MBOX = DOWNLOAD_DIR + "\\enron.mbox"
 
 func ConvertirMbox() {
+	/*
+		generar archivo para hacer profiling a cpu
+	*/
 	cpuFile, err := os.Create("cpu.prof")
 	if err != nil {
 		log.Fatal("No se pudo crear el archivo de CPU profile: ", err)
@@ -31,6 +34,9 @@ func ConvertirMbox() {
 		log.Fatal("No se pudo iniciar el CPU profile: ", err)
 	}
 	defer pprof.StopCPUProfile()
+	/*
+		finaiza código para generar cpu profiling
+	*/
 
 	fmt.Println("Comenzando a covertir data a mbox")
 	startTime := time.Now()
