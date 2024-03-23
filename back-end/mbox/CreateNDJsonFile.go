@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 const PATH string = "D:\\Camilo\\Downloads\\emailExtracted\\"
@@ -25,27 +26,37 @@ func CreateNJFile() {
 		return
 	}
 
-	ndFile, err := os.Create(path + "01.ndjson")
+	fileIndex := 0
+	ndFile, err := os.Create(path + "data" + strconv.Itoa(fileIndex) + ".ndjson")
 	if err != nil {
-		fmt.Println("Error al leer el archivo:", err)
+		fmt.Println("Error al crear el archivo:", err)
 		return
 	}
 	defer ndFile.Close()
 	// Crear un escritor de buffer para el archivo
 	writer := bufio.NewWriter(ndFile)
-
-	//m, err := json.Marshal(INDEX_TABLE)
-	j, err := json.Marshal(jsonMaps[0])
-	//write, err := ndFile.Write(m)
-	//write, err = ndFile.Write(j)
-	if err != nil {
-		return
-	}
-	for _, line := range jsonMaps {
+	for i, line := range jsonMaps {
+		j, err := json.Marshal(line)
+		if err != nil {
+			return
+		}
 		fmt.Fprintln(writer, INDEX_TABLE)
 		fmt.Fprintln(writer, string(j))
-		fmt.Println(line)
-		break
+
+		if i%2 == 0 && i > 0 {
+			writer.Flush()
+			ndFile.Close()
+			fileIndex += 1
+			ndFile, err = os.Create(path + "data" + strconv.Itoa(fileIndex) + ".ndjson")
+			writer = bufio.NewWriter(ndFile)
+			if err != nil {
+				fmt.Println("Error al crear el archivo:", err)
+				return
+			}
+		}
+		if i == 6 {
+			break
+		}
 	}
 
 	// Asegurarse de que todas las líneas se han escrito en el archivo
