@@ -36,7 +36,6 @@ func CreateNJFile() {
 	defer ndFile.Close()
 	// Crear un escritor de buffer para el archivo
 	writer := bufio.NewWriter(ndFile)
-	indexSplit := 0
 	indexAdded := 0
 	quantity := 45
 	startSplit := 0
@@ -53,10 +52,9 @@ func CreateNJFile() {
 		/*comprobamos primero siempre el limite del archivo para escribir en el actual
 		  o en un nuevo archivo
 		*/
-		if indexSplit > finishSplit {
+		if startSplit > finishSplit {
 			writer.Flush()
 			ndFile.Close()
-			indexSplit = 0
 			fileIndex += 1
 			startSplit = finishSplit
 			/*
@@ -77,7 +75,7 @@ func CreateNJFile() {
 		fmt.Fprintln(writer, helpers.INDEX_TABLE)
 		fmt.Fprintln(writer, string(j))
 		indexAdded += 1
-		indexSplit += 1
+		startSplit += 1
 	}
 
 	// Asegurarse de que todas las líneas se han escrito en el archivo
