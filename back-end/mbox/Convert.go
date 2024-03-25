@@ -3,6 +3,7 @@ package mbox
 import (
 	"fmt"
 	"log"
+	"myapp.com/enron/helpers"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -11,14 +12,10 @@ import (
 	"time"
 )
 
-const DOWNLOAD_DIR = "D:\\Camilo\\Downloads\\emailExtracted"
-
-var INDEX_TABLE string = "{'index': {'_index': 'enron_go'}}"
-
 var foldersDic = map[string]string{"_sent_mail": "_sent_mail", "discussion_threads": "discussion_threads", "inbox": "inbox", "sent_items": "sent_items"}
 
-const MAILDIR = DOWNLOAD_DIR + "\\enron_mail_20110402\\maildir"
-const MBOX = DOWNLOAD_DIR + "\\enron.mbox"
+const MAILDIR = helpers.PATH + "enron_mail_20110402\\maildir"
+const MBOX = helpers.PATH + "\\enron.mbox"
 
 func ConvertirMbox() {
 	/*
@@ -47,7 +44,7 @@ func ConvertirMbox() {
 	defer mbox.Close()
 
 	//abrir o crear archivo de error (logs)
-	errorFile, errLog := os.OpenFile(DOWNLOAD_DIR+"\\errors.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	errorFile, errLog := os.OpenFile(helpers.PATH+"errors.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if errLog != nil {
 		log.Fatal(errLog)
 	}
