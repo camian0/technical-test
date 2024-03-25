@@ -6,17 +6,16 @@ import (
 	"fmt"
 	"github.com/tvanriper/mbox"
 	"io/ioutil"
+	"myapp.com/enron/helpers"
 	"net/mail"
 	"os"
 	"strings"
 )
 
-var path string = "D:\\Camilo\\Downloads\\emailExtracted\\"
-
 // funcion para leer una archibo mbox, como ruta tiene una constante con la ruta predeterminada
 func ReadMbox() {
 	//lee todo el archibo mbox
-	datosComoBytes, err := os.ReadFile(path + "enron in_sent.mbox")
+	datosComoBytes, err := os.ReadFile(helpers.PATH + "enron in_sent.mbox")
 	if err != nil {
 		fmt.Println("Error al leer el archivo:", err)
 		return
@@ -63,7 +62,7 @@ func processString(splited []string) map[string]string {
 // funcion para crear n archivo json, con un arreglo de maps
 func createJsonFile(data []map[string]string) {
 	// Crear o abrir el archivo para escritura
-	file, err := os.Create(path + "data.json")
+	file, err := os.Create(helpers.PATH + "data.json")
 	if err != nil {
 		fmt.Println("Error al crear el archivo json:", err)
 		return
