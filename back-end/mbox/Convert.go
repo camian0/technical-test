@@ -66,9 +66,7 @@ func ConvertirMbox() {
 				continue
 			}
 			processFiles(filepath.Join(subFolderPath, subFolder.Name()), mbox, logger)
-			break
 		}
-		break
 	}
 
 	defer errorFile.Close()
