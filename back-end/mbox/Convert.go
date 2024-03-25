@@ -21,7 +21,7 @@ func ConvertirMbox() {
 	/*
 		generar archivo para hacer profiling a cpu
 	*/
-	cpuFile, err := os.Create("cpu.prof")
+	cpuFile, err := os.Create("cpuCreateMBOX.prof")
 	if err != nil {
 		log.Fatal("No se pudo crear el archivo de CPU profile: ", err)
 	}
@@ -44,7 +44,7 @@ func ConvertirMbox() {
 	defer mbox.Close()
 
 	//abrir o crear archivo de error (logs)
-	errorFile, errLog := os.OpenFile(helpers.PATH+"errors.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	errorFile, errLog := os.OpenFile(helpers.PATH+"errorsCreateMbox.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if errLog != nil {
 		log.Fatal(errLog)
 	}
